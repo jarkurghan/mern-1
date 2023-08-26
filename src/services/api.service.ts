@@ -3,5 +3,5 @@ const api_key = process.env.NEXT_PUBLIC_API_KEY as string;
 console.log(`${base_url}/trending/all/week?api_key=${api_key}&language=en-US`);
 
 export const API_REQUEST = {
-	trending: `${base_url}/trending/all/week?api_key=${api_key}&language=en-US`,
+  trending: `${base_url}/trending/all/week?api_key=${api_key}&language=en-US`,
 };
