@@ -37,7 +37,7 @@ const Auth = () => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<Image src={'https://rb.gy/p2hphi'} alt={'bg'} fill className='object-cover -z-10 !hidden sm:!inline opacity-5' />
+			<Image src={'https://rb.gy/cgfaf'} alt={'bg'} fill className='object-cover -z-10 !hidden sm:!inline opacity-5' />
 
 			<Image
 				src={'/logo.svg'}
