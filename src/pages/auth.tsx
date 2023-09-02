@@ -1,24 +1,21 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { TextField } from 'src/components';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { AuthContext } from 'src/context/auth.context';
-import { useRouter } from 'next/router';
+import { useAuth } from 'src/hooks/useAuth';
+import { GetServerSideProps } from 'next';
 
 const Auth = () => {
 	const [auth, setAuth] = useState<'signup' | 'signin'>('signin');
-	const { error, isLoading, signIn, signUp, user } = useContext(AuthContext);
-	const router = useRouter();
-
-	if (user) router.push('/');
+	const { error, isLoading, signIn, signUp, user, setIsLoading } = useAuth();
 
 	const toggleAuth = (state: 'signup' | 'signin') => {
 		setAuth(state);
 	};
 
-	const onSubmit = (formData: { email: string; password: string }) => {
+	const onSubmit = async (formData: { email: string; password: string }) => {
 		if (auth === 'signup') {
 			signUp(formData.email, formData.password);
 		} else {
@@ -40,7 +37,7 @@ const Auth = () => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<Image src={'https://rb.gy/p2hphi'} alt={'bg'} fill className='object-cover -z-10 !hidden sm:!inline opacity-60' />
+			<Image src={'https://rb.gy/p2hphi'} alt={'bg'} fill className='object-cover -z-10 !hidden sm:!inline opacity-5' />
 
 			<Image
 				src={'/logo.svg'}
@@ -59,7 +56,7 @@ const Auth = () => {
 						<TextField name='password' placeholder='Password' type={'password'} />
 					</div>
 
-					<button type='submit' disabled={isLoading} className='w-full bg-[#E10856] py-3 mt-4 font-semibold'>
+					<button type='submit' disabled={isLoading} className='w-full bg-[#E10856] py-4 rounded mt-4 font-semibold'>
 						{isLoading ? 'Loading...' : auth === 'signin' ? 'Sign In' : 'Sign Up'}
 					</button>
 
@@ -85,3 +82,17 @@ const Auth = () => {
 };
 
 export default Auth;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+	const user_id = req.cookies.user_id;
+
+	if (user_id) {
+		return {
+			redirect: { destination: '/', permanent: false },
+		};
+	}
+
+	return {
+		props: {},
+	};
+};
